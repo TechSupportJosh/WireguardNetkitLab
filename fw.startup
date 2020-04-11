@@ -29,3 +29,10 @@ iptables -A FORWARD -i eth0 -o eth1 -d 12.0.0.2 -p udp --dport 51902 -j ACCEPT
 # allow all traffic being fowarded out (coming in via eth1)
 # since I would hope that nobody has compromised our organisation
 iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT
+
+
+
+
+# SNAT
+iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to 192.168.0.2
+
