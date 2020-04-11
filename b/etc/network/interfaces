@@ -9,5 +9,5 @@ iface eth0 inet static
 	
 # Set up eth0
 iface eth1 inet static
-    address 10.0.0.1
-	gateway 10.0.0.2
+    address 16.0.0.1
+	gateway 16.0.0.2

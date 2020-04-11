@@ -4,5 +4,5 @@ iface lo inet loopback
 
 # Set up eth0
 iface eth0 inet static
-    address 10.0.0.2
-	gateway 10.0.0.1
+    address 16.0.0.2
+	gateway 16.0.0.1
