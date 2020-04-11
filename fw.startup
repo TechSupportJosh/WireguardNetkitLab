@@ -36,3 +36,8 @@ iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT
 # SNAT
 iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to 192.168.0.2
 
+
+# DNAT for Wireguard
+# Input to our firewall with our public facing IP 192.168.0.2
+iptables -t nat -A PREROUTING -i eth0 -d 192.168.0.2 -p udp --dport 51902 -j DNAT --to-destination 12.0.0.2
+
