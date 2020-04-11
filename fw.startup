@@ -1,0 +1,31 @@
+ifup eth0
+ifup eth1
+
+ip route add 16.0.0.0/8 via 12.0.0.2 dev eth1
+
+
+
+
+
+# Setup firewall rules
+
+iptables -P INPUT DROP #nobody needs to talk directly to the firewall
+iptables -P FORWARD DROP #default drop, will have rules later
+iptables -P OUTPUT DROP #the firewall doesn't need to call out to anyone either, since it has a static ip
+
+iptables -A FORWARD -i eth0 -o eth1 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+# allow only packets into the network (coming in via eth0) 
+# which are RELATED or ESTABLISHED to previous ones 
+
+# alternately, we allow packets in if they're going to:
+# the public webserver, port 80 at 192.168.0.10
+# (because we pre-nat on traffic coming in, the webserver should be changed to the right ip private ip - right?)
+# iptables -A FORWARD -i eth0 -o eth1 -d 192.168.0.10 -p tcp --dport 80 -j ACCEPT
+
+#or the wireguard server,
+#port 1337 at 192.168.0.2 (UDP)
+iptables -A FORWARD -i eth0 -o eth1 -d 12.0.0.2 -p udp --dport 51902 -j ACCEPT
+
+# allow all traffic being fowarded out (coming in via eth1)
+# since I would hope that nobody has compromised our organisation
+iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT
