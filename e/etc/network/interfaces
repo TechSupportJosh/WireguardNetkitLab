@@ -4,6 +4,6 @@ iface lo inet loopback
 
 # Set up eth0
 iface eth0 inet static
-    address 16.0.0.2
+    address 16.0.0.4
 	gateway 16.0.0.1
-	hwaddress 00:00:00:00:00:DD
+	hwaddress 00:00:00:00:00:FF
